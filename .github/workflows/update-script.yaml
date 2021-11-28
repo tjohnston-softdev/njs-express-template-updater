@@ -55,7 +55,7 @@ jobs:
           draft: false
           prerelease: false
           release_name: DevOps Test Release
-          tag_name: devops-test-rel
+          tag_name: devops
           body: Express server template - DevOps - (${{ env.today }})
           repo: njs-express-template
         env:
