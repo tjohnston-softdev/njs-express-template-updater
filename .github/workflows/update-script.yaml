@@ -32,5 +32,5 @@ jobs:
       - name: "Update Files"
         run: |
           cd ./files/njs-express-template
-          cp * ../../repo
+          cp * ../../repo -R
           ls -a -R ../../repo
