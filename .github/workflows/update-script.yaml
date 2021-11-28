@@ -39,7 +39,7 @@ jobs:
           cd ./repo
           date > ./update-timestamp.txt
           TODAY_DATE=$(date +"%Y-%m-%d")
-          TAG_NAME=$(echo "devops")
+          TAG_NAME=$(echo "devops2")
           TSTAMP=$(date)
           echo "today=$TODAY_DATE" >> $GITHUB_ENV
           echo "tag=$TAG_NAME" >> $GITHUB_ENV
@@ -58,6 +58,7 @@ jobs:
           release_name: DevOps Test Release
           tag_name: ${{ env.tag }}
           body: Express server template - DevOps - (${{ env.today }})
+          owner: tjohnston-softdev
           repo: njs-express-template
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
