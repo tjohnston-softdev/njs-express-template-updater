@@ -25,4 +25,5 @@ jobs:
         run: |
           cd ./repo
           find . ! -name .git -type d -maxdepth 1 -exec rm -r {} \;
+          find . ! -name .gitignore ! -name license.txt ! -name readme.md -type f -maxdepth 1 exec rm {} \;
           ls -a
