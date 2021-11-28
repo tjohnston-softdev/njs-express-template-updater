@@ -19,5 +19,10 @@ jobs:
           mkdir files
           cd ./files
           npx express-generator --view=ejs --git
-          echo "Files Downloaded"
-          dir
+          echo "# Images go here" > ./public/images/readme.md
+          echo "# Front-end JavaScript files go here." > ./public/javascripts/readme.md
+          ls -R
+      - name: "Remove Old Files"
+        run: |
+          cd ./repo
+          ls -R
