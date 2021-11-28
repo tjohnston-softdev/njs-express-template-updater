@@ -48,14 +48,14 @@ jobs:
           git add .
           git commit -m "DevOps ($TSTAMP)"
           git push origin master
-      - name: release
-      uses: actions/create-release@v1
-      id: create_release
-      with:
-        draft: false
-        prerelease: false
-        release_name: DevOps Test Release
-        tag_name: devops-test-rel
-        body: Express server template - DevOps - (${{ env.today }})
-      env:
-        GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+      - name: "Create Release"
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: DevOps Test Release
+          tag_name: devops-test-rel
+          body: Express server template - DevOps - (${{ env.today }})
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
