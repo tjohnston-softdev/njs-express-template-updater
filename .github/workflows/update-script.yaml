@@ -24,4 +24,4 @@ jobs:
       - name: "Remove Old Files"
         run: |
           cd ./repo
-          ls *
+          ls -R -a
