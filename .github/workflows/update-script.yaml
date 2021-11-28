@@ -38,18 +38,20 @@ jobs:
         run: |
           cd ./repo
           date > ./update-timestamp.txt
-          TODAY_DATE=$(date +"%Y-%m-%d")
-          TAG_NAME=$(echo "devops4")
-          TSTAMP=$(date)
+          TODAY_DATE_ABBREV=$(date +"%Y-%m-%d")
+          TODAY_DATE_FULL=$(date + %d %B %Y")
+          TAG_NAME=$(echo "20211128-devops5")
+          TIME_STAMP=$(date)
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
           git add .
-          git commit -m "DevOps ($TSTAMP)"
+          git commit -m "DevOps ($TIME_STAMP)"
           git push origin master
           SHORT_HASH=$(git rev-parse HEAD)
-          echo "today=$TODAY_DATE" >> $GITHUB_ENV
+          echo "today_abbrev=$TODAY_DATE_ABBREV" >> $GITHUB_ENV
+          echo "today_full=$TODAY_DATE_FULL" >> $GITHUB_ENV
           echo "tag=$TAG_NAME" >> $GITHUB_ENV
-          echo "comhash=$SHORT_HASH" >> $GITHUB_ENV
+          echo "com_hash=$SHORT_HASH" >> $GITHUB_ENV
       - name: "Create Release"
         uses: actions/create-release@v1
         id: create_release
@@ -58,9 +60,9 @@ jobs:
           prerelease: false
           release_name: DevOps Test Release
           tag_name: ${{ env.tag }}
-          body: Express server template - DevOps - (${{ env.today }})
+          body: Express server template - DevOps - (${{ env.today_full }})
           owner: tjohnston-softdev
           repo: njs-express-template
-          commitish: ${{ env.comhash }}
+          commitish: ${{ env.com_hash }}
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
