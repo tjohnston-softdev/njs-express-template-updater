@@ -25,4 +25,4 @@ jobs:
         run: |
           cd ./repo
           find . ! -name .git -type d -maxdepth 1 -exec rm -r {} \;
-          dir
+          ls -a
