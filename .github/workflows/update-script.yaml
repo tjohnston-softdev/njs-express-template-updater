@@ -51,7 +51,7 @@ jobs:
           echo "today_abbrev=$TODAY_DATE_ABBREV" >> $GITHUB_ENV
           echo "today_full=$TODAY_DATE_FULL" >> $GITHUB_ENV
           echo "tag=$TAG_NAME" >> $GITHUB_ENV
-          echo "com_hash=$SHORT_HASH" >> $GITHUB_ENV
+          echo "comhash=$SHORT_HASH" >> $GITHUB_ENV
       - name: "Create Release"
         uses: actions/create-release@v1
         id: create_release
@@ -63,6 +63,6 @@ jobs:
           body: Express server template - DevOps - (${{ env.today_full }})
           owner: tjohnston-softdev
           repo: njs-express-template
-          commitish: ${{ env.com_hash }}
+          commitish: ${{ env.comhash }}
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
