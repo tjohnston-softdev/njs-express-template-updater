@@ -24,4 +24,5 @@ jobs:
       - name: "Remove Old Files"
         run: |
           cd ./repo
-          find . ! -name ./.git ! -name ./.gitignore ! -name ./readme.md ! -name ./license.txt -print
+          find . -type d ! -name ".git" -exec rm -r {} +
+          dir
