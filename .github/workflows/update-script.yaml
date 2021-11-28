@@ -29,4 +29,7 @@ jobs:
           cd ./repo
           find . ! -name .git -type d -maxdepth 1 -exec rm -r {} \;
           find . ! -name .gitignore ! -name license.txt ! -name readme.md -type f -maxdepth 1 -exec rm -r {} \;
-          ls -a
+      - name: "Update Files"
+        run: |
+          cd ./files/njs-express-template
+          ls -a -R
