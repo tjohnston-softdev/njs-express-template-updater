@@ -57,6 +57,6 @@ jobs:
           release_name: DevOps Test Release
           tag_name: devops-test-rel
           body: Express server template - DevOps - (${{ env.today }})
-          repo: tjohnston-softdev/njs-express-template
+          repo: njs-express-template
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
