@@ -24,5 +24,4 @@ jobs:
       - name: "Remove Old Files"
         run: |
           cd ./repo
-          find . -type d ! -name ".git" -exec rm -r {} +
-          dir
+          find . -type d --print
