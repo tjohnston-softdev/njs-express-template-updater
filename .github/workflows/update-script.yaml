@@ -38,9 +38,24 @@ jobs:
         run: |
           cd ./repo
           date > ./update-timestamp.txt
-          TODAY=$(date +"%Y-%m-%d")
+          TODAY_DATE=$(date +"%Y-%m-%d")
+          TAG_NAME=$(date +"%Y%m%d")
+          TSTAMP=$(date)
+          echo "today=$TODAY_DATE" >> $GITHUB_ENV
+          echo "tag=$TAG_NAME" >> $GITHUB_ENV
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
           git add .
-          git commit -m "Generator ($TODAY)"
+          git commit -m "DevOps ($TSTAMP)"
           git push origin master
+      - name: release
+      uses: actions/create-release@v1
+      id: create_release
+      with:
+        draft: false
+        prerelease: false
+        release_name: DevOps Test Release
+        tag_name: devops-test-rel
+        body: Express server template - DevOps - (${{ env.today }})
+      env:
+        GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
