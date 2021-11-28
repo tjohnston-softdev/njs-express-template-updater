@@ -39,7 +39,7 @@ jobs:
           cd ./repo
           date > ./update-timestamp.txt
           TODAY_DATE=$(date +"%Y-%m-%d")
-          TAG_NAME=$(date +"%Y%m%d")
+          TAG_NAME=$(echo "devops")
           TSTAMP=$(date)
           echo "today=$TODAY_DATE" >> $GITHUB_ENV
           echo "tag=$TAG_NAME" >> $GITHUB_ENV
@@ -47,7 +47,8 @@ jobs:
           git config --global user.name "GitHub Actions"
           git add .
           git commit -m "DevOps ($TSTAMP)"
-          git push origin master
+          git tag $TAG_NAME
+          git push origin master --tags
       - name: "Create Release"
         uses: actions/create-release@v1
         id: create_release
@@ -55,7 +56,7 @@ jobs:
           draft: false
           prerelease: false
           release_name: DevOps Test Release
-          tag_name: devops
+          tag_name: ${{ env.tag }}
           body: Express server template - DevOps - (${{ env.today }})
           repo: njs-express-template
         env:
