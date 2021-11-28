@@ -1,0 +1,23 @@
+name: Update Express Template
+on: workflow_dispatch
+#on:
+  #schedule:
+    # 12:00 UTC on the first of the month.
+    #- cron:  '0 12 1 * *'
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Download Repository"
+        uses: actions/checkout@v2
+        with:
+            repository: tjohnston-softdev/njs-express-template
+            path: repo
+            token: ${{ secrets.REPO_ACCESS_TOKEN }}
+      - name: "Download Template Files"
+        run: |
+          mkdir files
+          cd ./files
+          npx express-generator --view=ejs --git
+          echo "Files Downloaded"
+          dir
