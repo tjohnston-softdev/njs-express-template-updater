@@ -34,3 +34,13 @@ jobs:
           cd ./files/njs-express-template
           cp * ../../repo -R
           ls -a -R ../../repo
+      - name: "Save Changes"
+        run: |
+          cd ./repo
+          date > ./update-timestamp.txt
+          TODAY=$(date +"%Y-%m-%d")
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add .
+          git commit -m "Generator ($TODAY)"
+          git push origin master
