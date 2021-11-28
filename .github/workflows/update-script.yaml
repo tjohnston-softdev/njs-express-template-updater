@@ -1,66 +1,71 @@
 name: Update Express Template
-on: workflow_dispatch
-#on:
-  #schedule:
+on:
+  schedule:
     # 12:00 UTC on the first of the month.
-    #- cron:  '0 12 1 * *'
+    - cron:  '0 12 1 * *'
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - name: "Download Repository"
+      # Clone template repository.
+      - name: "Clone Repository"
         uses: actions/checkout@v2
         with:
             repository: tjohnston-softdev/njs-express-template
             path: repo
             token: ${{ secrets.REPO_ACCESS_TOKEN }}
+      # Download current Express build.
       - name: "Download Template Files"
         run: |
           mkdir -p ./files/njs-express-template
           cd ./files/njs-express-template
           npx express-generator --view=ejs --git
+      # Create placeholder files for images and JS inside Express build.
       - name: "Create Placeholder Files"
         run: |
           cd ./files/njs-express-template
           echo "# Images go here" > ./public/images/readme.md
           echo "# Front-end JavaScript files go here." > ./public/javascripts/readme.md
-      - name: "Remove Old Files"
+      # Delete old template files from repository.
+      - name: "Delete Old Files"
         run: |
           cd ./repo
           find . ! -name .git -type d -maxdepth 1 -exec rm -r {} \;
           find . ! -name .gitignore ! -name license.txt ! -name readme.md -type f -maxdepth 1 -exec rm -r {} \;
+      # Copy Express build files to repository.
       - name: "Update Files"
         run: |
           cd ./files/njs-express-template
           cp * ../../repo -R
           ls -a -R ../../repo
+      # Commit to repository.
       - name: "Save Changes"
         run: |
           cd ./repo
           date > ./update-timestamp.txt
           TODAY_DATE_ABBREV=$(date +"%Y-%m-%d")
           TODAY_DATE_FULL=$(date +"%d %B %Y")
-          TAG_NAME=$(echo "20211129")
-          TIME_STAMP=$(date)
+          TAG_NAME=$(date +"%Y%m%d")
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
           git add .
-          git commit -m "DevOps ($TIME_STAMP)"
+          git commit -m "Generator ($TODAY_DATE_ABBREV)"
           git push origin master
           SHORT_HASH=$(git rev-parse HEAD)
           echo "today_abbrev=$TODAY_DATE_ABBREV" >> $GITHUB_ENV
           echo "today_full=$TODAY_DATE_FULL" >> $GITHUB_ENV
           echo "tag=$TAG_NAME" >> $GITHUB_ENV
           echo "comhash=$SHORT_HASH" >> $GITHUB_ENV
+      # Create new template release.
       - name: "Create Release"
         uses: actions/create-release@v1
         id: create_release
         with:
           draft: false
           prerelease: false
-          release_name: 29 Nov Test
+          release_name: ${{ env.today_abbrev }}
           tag_name: ${{ env.tag }}
-          body: Express server template - DevOps - (${{ env.today_full }})
+          body: Express server template (${{ env.today_full }})
           owner: tjohnston-softdev
           repo: njs-express-template
           commitish: ${{ env.comhash }}
